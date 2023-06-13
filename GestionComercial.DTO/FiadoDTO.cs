@@ -18,7 +18,7 @@ namespace GestionComercial.DTO
 
         public string? TipoPago { get; set; }
 
-        public int? TotalTexto { get; set; }
+        public int? Total { get; set; }
 
         public string? FechaRegistroVenta { get; set; }
     }

@@ -12,6 +12,7 @@ namespace GestionComercial.DTO
 
         public string? NombreCategoria { get; set; }
 
+  
 
     }
 }

@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using AutoMapper;
 using GestionComercial.BLL.Servicios.Contrato;
 using GestionComercial.DAL.Repositorios.Contrato;
 using GestionComercial.DTO;
 using GestionComercial.Model;
 
+
 namespace GestionComercial.BLL.Servicios
 {
-    public class CategoriaService : ICategoriaService
+    public class ListaFiadosService :IListaFiadosService
     {
-        private readonly IGenericRepository<Categoria> _categoriaRepositorio;
+        private readonly IGenericRepository<Fiado> _fiadosRepository;
         private readonly IMapper _mapper;
 
-        public CategoriaService(IGenericRepository<Categoria> categoriaRepositorio, IMapper mapper)
+        public ListaFiadosService(IGenericRepository<Fiado> fiadosRepository, IMapper mapper)
         {
-            _categoriaRepositorio = categoriaRepositorio;
+            _fiadosRepository = fiadosRepository;
             _mapper = mapper;
         }
 
-        public async Task<List<CategoriaDTO>> Lista()
+        public async Task<List<FiadoDTO>> Lista()
         {
             try
             {
-                var listaCategorias = await _categoriaRepositorio.Consultar();
-                return _mapper.Map<List<CategoriaDTO>>(listaCategorias.ToList());
+                var listaFiados = await _fiadosRepository.Consultar();
+                return _mapper.Map<List<FiadoDTO>>(listaFiados.ToList());
             }
             catch
             {
                 throw;
             }
+            
         }
     }
 }

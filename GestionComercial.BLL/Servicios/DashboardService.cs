@@ -96,36 +96,35 @@ namespace GestionComercial.BLL.Servicios
 
         public async Task<DashboardDTO> Resumen()
         {
-            DashboardDTO vmDashboard = new DashboardDTO();
+            DashboardDTO vmDashBoard = new DashboardDTO();
 
             try
             {
-                vmDashboard.TotalVentas = await totalVentasUltimaSemana();
-                vmDashboard.TotalIngresos= await TotalIngresosUltimaSemana();
-                vmDashboard.TotalProductos= await totalProductos();
+                vmDashBoard.TotalVentas = await totalVentasUltimaSemana();
+                vmDashBoard.TotalIngresos = await TotalIngresosUltimaSemana();
+                vmDashBoard.TotalProductos = await totalProductos();
 
                 List<VentasSemanaDTO> listaVentaSemana = new List<VentasSemanaDTO>();
 
-                //string como lo llamamos, int lo que retorna
-                foreach(KeyValuePair<string, int>item in await VentasUltimaSemana())
+                foreach (KeyValuePair<string, int> item in await VentasUltimaSemana())
                 {
                     listaVentaSemana.Add(new VentasSemanaDTO()
                     {
                         Fecha = item.Key,
                         Total = item.Value
-                    }) ;
+                    });
+
                 }
-
-                vmDashboard.VentasUltimaSemana = listaVentaSemana;
-
+                vmDashBoard.VentasUltimaSemana = listaVentaSemana;
             }
             catch
             {
                 throw;
             }
-
-            return vmDashboard;
+            return vmDashBoard;
         }
+
+
     }
         
     

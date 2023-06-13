@@ -32,9 +32,7 @@ namespace GestionComercial.BLL.Servicios
 
                 if (proveedorCreado.RutProveedor == "0")
                     throw new TaskCanceledException("No se pudo crear");
-                var query = await _proveedorRepository.Consultar(p => p.RutProveedor == proveedorCreado.RutProveedor);
-
-                return _mapper.Map<ProveedorDTO>(query);
+                return _mapper.Map<ProveedorDTO>(proveedorCreado);
             }
             catch
             {

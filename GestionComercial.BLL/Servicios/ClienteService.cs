@@ -35,8 +35,7 @@ namespace GestionComercial.BLL.Servicios
                 {
                     throw new TaskCanceledException("Cliente no se pudo crear.");
                 }
-                var query = await _clienteRepositorio.Consultar(u => u.RutCliente == clienteCreado.RutCliente);
-                return _mapper.Map<ClienteDTO>(query);
+                return _mapper.Map<ClienteDTO>(clienteCreado);
 
             }
             catch 

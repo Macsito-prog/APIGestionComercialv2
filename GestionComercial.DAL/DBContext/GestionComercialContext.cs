@@ -19,6 +19,8 @@ public partial class GestionComercialContext : DbContext
 
     public virtual DbSet<Categoria> Categoria { get; set; }
 
+    public virtual DbSet<ProductoPorProveedor> ProductoPorProveedor { get; set; }
+
     public virtual DbSet<Cliente> Clientes { get; set; }
 
     public virtual DbSet<DetalleOrdenCompra> DetalleOrdenCompras { get; set; }
@@ -38,6 +40,9 @@ public partial class GestionComercialContext : DbContext
     public virtual DbSet<Producto> Productos { get; set; }
 
     public virtual DbSet<Proveedor> Proveedors { get; set; }
+
+ 
+
 
     public virtual DbSet<Rol> Rols { get; set; }
 
@@ -69,6 +74,8 @@ public partial class GestionComercialContext : DbContext
                 .HasColumnName("NOMBRE_CATEGORIA");
         });
 
+        
+
         modelBuilder.Entity<Cliente>(entity =>
         {
             entity.HasKey(e => e.RutCliente).HasName("PK__CLIENTE__4FE6A3805CF4BAE9");
@@ -95,6 +102,11 @@ public partial class GestionComercialContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRE_CLIENTE");
+        });
+
+        modelBuilder.Entity<ProductoPorProveedor>(entity =>
+        {
+            entity.HasKey(p => p.IdProductoProveedor);
         });
 
         modelBuilder.Entity<DetalleOrdenCompra>(entity =>
@@ -329,6 +341,8 @@ public partial class GestionComercialContext : DbContext
                         j.IndexerProperty<int>("IdProducto").HasColumnName("ID_PRODUCTO");
                     });
         });
+
+ 
 
         modelBuilder.Entity<Rol>(entity =>
         {

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GestionComercial.DTO;
 using GestionComercial.Model;
-
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace GestionComercial.Utility
 {
@@ -67,8 +67,20 @@ namespace GestionComercial.Utility
             #endregion Usuario
 
             #region Categoria
-            CreateMap<Categoria, CategoriaDTO>().ReverseMap();
+            CreateMap<Categoria, CategoriaDTO>()
+                .ReverseMap();
             #endregion Categoria
+
+            #region ProductoPorProveedor
+            CreateMap<ProductoPorProveedor, ProductoPorProveedorDTO>()
+                .ForMember(destino =>
+                destino.IdProducto, opt => opt.MapFrom(origen => origen.IdProductoNavigation.NombreProducto))
+                .ForMember(destino =>
+                destino.RutProveedor, opt => opt.MapFrom(origen => origen.RutProveedorNavigation.NombreProveedor));
+            CreateMap<ProductoPorProveedorDTO, ProductoPorProveedor>()
+                .ReverseMap();
+            #endregion
+
 
             #region Producto
             CreateMap<Producto, ProductoDTO>()
@@ -98,7 +110,6 @@ namespace GestionComercial.Utility
                 destino.EsActivoProducto,
                 opt => opt.MapFrom(origen => origen.EsActivoProducto == 1 ? true : false)
                 );
-
             #endregion
 
             #region Venta
@@ -122,7 +133,7 @@ namespace GestionComercial.Utility
 
             #endregion Venta
 
-
+          
 
             #region DetalleVenta
             CreateMap<DetalleVenta, DetalleVentaDTO>()
@@ -190,23 +201,18 @@ namespace GestionComercial.Utility
 
             #region fiado
 
-            CreateMap<Venta, FiadoDTO>()
-                .ForMember(destino =>
-                destino.TotalTexto,
-                opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-CL"))))
+            CreateMap<Fiado, FiadoDTO>()
+                .ForMember(destino => destino.Total, opt => opt.MapFrom(origen => origen.Total.ToString()))
                 .ForMember(destino =>
                 destino.FechaRegistroVenta,
                 opt => opt.MapFrom(origen => origen.FechaRegistroVenta.Value.ToString("dd/MM/yyyy")));
 
-            CreateMap<FiadoDTO, Venta>()
-                .ForMember(destino =>
-                destino.Total,
-                opt => opt.MapFrom(origen => Convert.ToInt64(origen.TotalTexto, new CultureInfo("es-CL"))));
-
+            CreateMap<FiadoDTO, Fiado>()
+                .ForMember(destino => destino.Total, opt => opt.MapFrom(origen => origen.Total));
 
             #endregion
 
-   
+
 
             #region OrdenCompra
 
@@ -221,7 +227,10 @@ namespace GestionComercial.Utility
 
             #region Proveedor
             CreateMap<Proveedor, ProveedorDTO>().ReverseMap();
+
             #endregion
+
+
 
 
         }

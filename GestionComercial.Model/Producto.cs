@@ -26,4 +26,6 @@ public partial class Producto
     public virtual Categoria? IdCategoriaNavigation { get; set; }
 
     public virtual ICollection<Proveedor> RutProveedors { get; set; } = new List<Proveedor>();
+
+
 }

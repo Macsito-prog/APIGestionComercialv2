@@ -49,6 +49,11 @@ namespace GestionComercial.IOC
             services.AddScoped<IDetalleOrdenCompraService, DetalleOrdenCompraService>();
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IOrdenCompraService, OrdenCompraService>();
+            services.AddScoped<IProductoProveedorService, ProductoProveedorService>();
+            services.AddScoped<IListaFiadosService, ListaFiadosService>();
+
+
+
 
         }
     }
