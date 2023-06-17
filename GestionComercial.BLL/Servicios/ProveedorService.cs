@@ -69,13 +69,25 @@ namespace GestionComercial.BLL.Servicios
             try
             {
                 var proveedorEncontrado = await _proveedorRepository.Obtener(p => p.RutProveedor == rut);
+                
                 if (proveedorEncontrado == null)
+                {
                     throw new TaskCanceledException("No encontrado el proveedor");
-                bool respuesta = await _proveedorRepository.Eliminar(proveedorEncontrado);
+                }
+                else
+                {
 
-                if (!respuesta) throw new TaskCanceledException("No se pudo eliminar");
+                    bool respuesta = await _proveedorRepository.Eliminar(proveedorEncontrado);
 
-                return respuesta;
+                    if (!respuesta)
+                    {
+                        throw new TaskCanceledException("No se pudo eliminar");
+                    }
+                    
+
+                    return respuesta;
+                }
+
             }
             catch
             {

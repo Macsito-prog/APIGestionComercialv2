@@ -69,6 +69,7 @@ namespace GestionComercial.BLL.Servicios
             }
         }
 
+
         public async Task<bool> Eliminar(int id)
         {
             try
@@ -76,13 +77,25 @@ namespace GestionComercial.BLL.Servicios
                 var productoEncontrado = await _productoRepositorio.Obtener(p => p.IdProducto == id);
 
                 if (productoEncontrado == null)
+                {
                     throw new TaskCanceledException("No se encontró el producto");
+                }
+                else
+                {
 
-                bool respuesta = await _productoRepositorio.Eliminar(productoEncontrado);
+                    bool respuesta = await _productoRepositorio.Eliminar(productoEncontrado);
 
-                if (!respuesta)
-                    throw new TaskCanceledException("No se pudo eliminar el producto");
-                return respuesta;
+                    if (!respuesta)
+                    {
+                        throw new TaskCanceledException("No se pudo eliminar el producto");
+                    }
+                        
+
+
+                    return respuesta;
+                }
+                    
+
             }
             catch
             {

@@ -11,38 +11,33 @@ namespace GestionComercial.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class VentaController : ControllerBase
     {
-        private readonly IVentaService _ventaService;
+        private readonly IVentaService _ventaServicio;
 
-        public VentaController(IVentaService ventaService)
+        public VentaController(IVentaService ventaServicio)
         {
-            _ventaService = ventaService;
+            _ventaServicio = ventaServicio;
         }
-
         [HttpPost]
         [Route("Registrar")]
-        public async Task<IActionResult> Guardar([FromBody] VentaDTO venta)
+        public async Task<IActionResult> Registrar([FromBody] VentaDTO venta)
         {
+            var rsp = new Response<VentaDTO>();
 
+            try
             {
-                var rsp = new Response<VentaDTO>();
-
-                try
-                {
-                    rsp.status = true;
-                    rsp.value = await _ventaService.Registrar(venta);
-                }
-                catch (Exception ex)
-                {
-                    rsp.status = false;
-                    rsp.msg = ex.Message;
-                }
-
-                return Ok(rsp);
+                rsp.status = true;
+                rsp.value = await _ventaServicio.Registrar(venta);
             }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+            return Ok(rsp);
         }
-
         [HttpGet]
         [Route("Historial")]
         public async Task<IActionResult> Historial(string buscarPor, string? numeroVenta, string? fechaInicio, string? fechaFin)
@@ -52,46 +47,34 @@ namespace GestionComercial.API.Controllers
             fechaInicio = fechaInicio is null ? "" : fechaInicio;
             fechaFin = fechaFin is null ? "" : fechaFin;
 
-
             try
             {
                 rsp.status = true;
-                rsp.value = await _ventaService.Historial(buscarPor, numeroVenta, fechaInicio, fechaFin);
+                rsp.value = await _ventaServicio.Historial(buscarPor, numeroVenta, fechaInicio, fechaFin);
             }
             catch (Exception ex)
             {
                 rsp.status = false;
                 rsp.msg = ex.Message;
             }
-
             return Ok(rsp);
         }
-
         [HttpGet]
         [Route("Reporte")]
         public async Task<IActionResult> Reporte(string? fechaInicio, string? fechaFin)
         {
             var rsp = new Response<List<ReporteDTO>>();
-            
-            fechaInicio = fechaInicio is null ? "" : fechaInicio;
-            fechaFin = fechaFin is null ? "" : fechaFin;
-
-
             try
             {
                 rsp.status = true;
-                rsp.value = await _ventaService.Reporte(fechaInicio, fechaFin);
+                rsp.value = await _ventaServicio.Reporte(fechaInicio, fechaFin);
             }
             catch (Exception ex)
             {
                 rsp.status = false;
                 rsp.msg = ex.Message;
             }
-
             return Ok(rsp);
         }
-
-
-
     }
 }

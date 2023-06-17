@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,22 +22,26 @@ namespace GestionComercial.BLL.Servicios
 
         private readonly IMapper _mapper;
         private readonly IOrdenCompraRepository _ordenCompraRepository;
+        private readonly IVentaRepository _ventaRepository;
 
-        public OrdenCompraService(IGenericRepository<DetalleOrdenCompra> detalleOrdenRepositorio, IMapper mapper, IOrdenCompraRepository ordenCompraRepository)
+        public OrdenCompraService(IMapper mapper, IOrdenCompraRepository ordenCompraRepository, IVentaRepository ventaRepository)
         {
-            
             _mapper = mapper;
             _ordenCompraRepository = ordenCompraRepository;
+            _ventaRepository = ventaRepository;
         }
-
 
         public async Task<OrdenCompraDTO> Registrar(OrdenCompraDTO modelo)
         {
             try
             {
                 var ordenGenerada = await _ordenCompraRepository.RegistrarOC(_mapper.Map<OrdenCompra>(modelo));
-                if(ordenGenerada.IdOrdenCompra == 0) 
+
+                if (ordenGenerada.IdOrdenCompra == 0)
+                {
                     throw new TaskCanceledException("No se pudo generar");
+                }
+                    
                 return _mapper.Map<OrdenCompraDTO>(ordenGenerada);
             }
             catch

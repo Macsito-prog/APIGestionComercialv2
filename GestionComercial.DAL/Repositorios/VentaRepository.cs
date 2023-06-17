@@ -22,44 +22,19 @@ namespace GestionComercial.DAL.Repositorios
             _dbcontext = dbcontext;
         }
 
-        public Task<IQueryable<Venta>> Consultar(Expression<Func<Venta, bool>> filtro = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Venta> Crear(Venta modelo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Editar(Venta modelo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Eliminar(Venta modelo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Venta> Obtener(Expression<Func<Venta, bool>> filtro)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Venta> Registrar(Venta modelo)
         {
             Venta ventaGenerada = new Venta();
 
             using (var transaction = _dbcontext.Database.BeginTransaction())
             {
-                try 
+                try
                 {
                     foreach (DetalleVenta dv in modelo.DetalleVenta)
                     {
                         Producto producto_encontrado = _dbcontext.Productos.Where(p => p.IdProducto == dv.IdProducto).First();
                         producto_encontrado.Stock = producto_encontrado.Stock - dv.Cantidad;
-                        if (dv.Cantidad <1)
+                        if (dv.Cantidad < 1)
                         {
                             transaction.Rollback();
                         }
@@ -67,7 +42,7 @@ namespace GestionComercial.DAL.Repositorios
                         {
                             _dbcontext.Productos.Update(producto_encontrado);
                         }
-                    } 
+                    }
                     await _dbcontext.SaveChangesAsync();
 
                     //En el número de documento se da inicio a los número correlativos de las boletas
@@ -98,7 +73,7 @@ namespace GestionComercial.DAL.Repositorios
 
                 }
                 catch 
-                { 
+                {
                     transaction.Rollback();
                     throw;
                 }
@@ -106,5 +81,32 @@ namespace GestionComercial.DAL.Repositorios
                 return ventaGenerada;
             }
         }
+
+        public Task<IQueryable<Venta>> Consultar(Expression<Func<Venta, bool>> filtro = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Venta> Crear(Venta modelo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Editar(Venta modelo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Eliminar(Venta modelo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Venta> Obtener(Expression<Func<Venta, bool>> filtro)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

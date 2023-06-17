@@ -10,6 +10,7 @@ using GestionComercial.DTO;
 using GestionComercial.Model;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GestionComercial.Utility
 {
@@ -113,6 +114,8 @@ namespace GestionComercial.Utility
             #endregion
 
             #region Venta
+
+            // Mapeo de Venta a VentaDTO
             CreateMap<Venta, VentaDTO>()
                 .ForMember(destino =>
                 destino.TotalTexto,
@@ -120,22 +123,23 @@ namespace GestionComercial.Utility
                 )
                 .ForMember(destino =>
                 destino.FechaRegistroVenta,
-                opt => opt.MapFrom(origen => origen.FechaRegistroVenta.Value.Date.ToString("dd/MM/yyyy")
-                ));
-
-
+                opt => opt.MapFrom(origen => origen.FechaRegistroVenta.Value.ToString("dd/MM/yyyy"))
+                );
             CreateMap<VentaDTO, Venta>()
                 .ForMember(destino =>
                 destino.Total,
-                opt => opt.MapFrom(origen => Convert.ToInt64(origen.TotalTexto, new CultureInfo("es-CL")))
+                opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-CL")))
                 );
-
-
             #endregion Venta
 
-          
+
+
+
+
+
 
             #region DetalleVenta
+
             CreateMap<DetalleVenta, DetalleVentaDTO>()
                 .ForMember(destino =>
                 destino.DescripcionProducto,
@@ -150,7 +154,6 @@ namespace GestionComercial.Utility
                 opt => opt.MapFrom(origen => Convert.ToString(origen.Total.Value, new CultureInfo("es-CL")))
                 );
 
-
             CreateMap<DetalleVentaDTO, DetalleVenta>()
                 .ForMember(destino =>
                 destino.Precio,
@@ -160,8 +163,9 @@ namespace GestionComercial.Utility
                 destino.Total,
                 opt => opt.MapFrom(origen => Convert.ToDecimal(origen.TotalTexto, new CultureInfo("es-CL")))
                 );
+            #endregion DetalleVenta
 
-            #endregion
+
 
 
             #region Reporte
@@ -215,12 +219,18 @@ namespace GestionComercial.Utility
 
 
             #region OrdenCompra
-
             CreateMap<OrdenCompra, OrdenCompraDTO>()
-                .ForMember(destino =>
-                destino.FechaOrdenCompra,
-                opt => opt.MapFrom(origen => origen.FechaOrdenCompra.Value.ToString("dd/MM/yyyy")
-                ));
+                .ForMember(dest => dest.FechaOrdenCompra,
+                    opt => opt.MapFrom(src => src.FechaOrdenCompra.HasValue
+                        ? src.FechaOrdenCompra.Value.ToString("dd/MM/yyyy")
+                        : string.Empty));
+
+            CreateMap<OrdenCompraDTO, OrdenCompra>()
+                .ForMember(dest => dest.FechaOrdenCompra,
+                    opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.FechaOrdenCompra)
+                        ? DateTime.ParseExact(src.FechaOrdenCompra, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        : (DateTime?)null));
+
 
 
             #endregion

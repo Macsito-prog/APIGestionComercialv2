@@ -91,7 +91,7 @@ namespace GestionComercial.API.Controllers
         }
 
         [HttpDelete]
-        [Route("Eliminar/id:int")]
+        [Route("Eliminar/{id:int}")]
         public async Task<IActionResult> Eliminar(int id)
         {
 
@@ -112,6 +112,7 @@ namespace GestionComercial.API.Controllers
                 return Ok(rsp);
             }
         }
+
 
 
     }

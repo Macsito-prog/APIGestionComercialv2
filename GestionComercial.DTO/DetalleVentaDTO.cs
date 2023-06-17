@@ -14,9 +14,9 @@ namespace GestionComercial.DTO
 
         public int? Cantidad { get; set; }
 
-        public string? PrecioTexto { get; set; }
+        public int? PrecioTexto { get; set; }
 
-        public string? TotalTexto { get; set; }
+        public int? TotalTexto { get; set; }
 
         public int? EsFiado { get; set; }
     }

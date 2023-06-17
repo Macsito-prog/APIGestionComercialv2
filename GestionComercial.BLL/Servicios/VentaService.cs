@@ -31,40 +31,37 @@ namespace GestionComercial.BLL.Servicios
         public async Task<List<VentaDTO>> Historial(string buscarPor, string numeroVenta, string fechaInicio, string fechaFin)
         {
             IQueryable<Venta> query = await _ventaRepositorio.Consultar();
-            var listaResultado = new List<Venta>();
+            var ListaResultado = new List<Venta>();
 
             try
             {
-                if(buscarPor == "fecha")
+                if (buscarPor == "fecha")
                 {
-                    DateTime fecha_Inicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-CL"));
-                    DateTime fecha_Fin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-CL"));
+                    DateTime fech_Inicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-CL"));
+                    DateTime fech_Fin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-CL"));
 
-                    listaResultado = await query.Where(v =>
-                    v.FechaRegistroVenta.Value.Date >= fecha_Inicio.Date &&
-                    v.FechaRegistroVenta.Value.Date <= fecha_Fin.Date).Include(dv =>
-                    dv.DetalleVenta)
+                    ListaResultado = await query.Where(v =>
+                    v.FechaRegistroVenta.Value.Date >= fech_Inicio.Date &&
+                    v.FechaRegistroVenta.Value.Date <= fech_Fin.Date
+                    ).Include(dv => dv.DetalleVenta)
                     .ThenInclude(p => p.IdProductoNavigation)
                     .ToListAsync();
-
                 }
                 else
                 {
-                    listaResultado = await query.Where(v =>
-                    v.NumeroDocumento == numeroVenta).Include(dv =>
-                    dv.DetalleVenta)
+                    ListaResultado = await query.Where(v => v.NumeroDocumento == numeroVenta
+                    ).Include(dv => dv.DetalleVenta)
                     .ThenInclude(p => p.IdProductoNavigation)
                     .ToListAsync();
                 }
-            } 
+            }
             catch
             {
                 throw;
             }
-
-
-        return _mapper.Map<List<VentaDTO>>(listaResultado);
+            return _mapper.Map<List<VentaDTO>>(ListaResultado);
         }
+
 
         public async Task<VentaDTO> Registrar(VentaDTO modelo)
         {
@@ -73,6 +70,7 @@ namespace GestionComercial.BLL.Servicios
                 var ventaGenerada = await _ventaRepositorio.Registrar(_mapper.Map<Venta>(modelo));
                 if (ventaGenerada.IdVenta == 0)
                     throw new TaskCanceledException("No se pudo generar");
+
                 return _mapper.Map<VentaDTO>(ventaGenerada);
             } 
             catch

@@ -11,5 +11,7 @@ namespace GestionComercial.BLL.Servicios.Contrato
     {
         Task<OrdenCompraDTO> Registrar(OrdenCompraDTO modelo);
 
+
+
     }
 }
