@@ -79,10 +79,11 @@ namespace GestionComercial.BLL.Servicios
             {
                 var clienteEncontrado = await _clienteRepositorio.Obtener(u => u.RutCliente == rut);
                 if (clienteEncontrado == null)
-                    throw new TaskCanceledException("Cliente no encontrado");
-                bool respuesta = await _clienteRepositorio.Eliminar(clienteEncontrado);
+                    throw new Exception("Cliente no encontrado");
 
-                if (!respuesta) throw new TaskCanceledException("No se pudo eliminar");
+                bool respuesta = await _clienteRepositorio.Eliminar(clienteEncontrado);
+                if (!respuesta)
+                    throw new Exception("No se pudo eliminar");
 
                 return respuesta;
             }

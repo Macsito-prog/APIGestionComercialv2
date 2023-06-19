@@ -90,27 +90,23 @@ namespace GestionComercial.API.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("Eliminar/{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {
+            var rsp = new Response<bool>();
 
+            try
             {
-                var rsp = new Response<bool>();
-
-                try
-                {
-                    rsp.status = true;
-                    rsp.value = await _productoService.Eliminar(id);
-                }
-                catch (Exception ex)
-                {
-                    rsp.status = false;
-                    rsp.msg = ex.Message;
-                }
-
-                return Ok(rsp);
+                rsp.status = true;
+                rsp.value = await _productoService.Eliminar(id);
             }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
         }
 
 

@@ -86,12 +86,9 @@ namespace GestionComercial.API.Controllers
 
         }
 
-        [HttpDelete]
-        [Route("Eliminar/rut:string")]
+        [HttpDelete("{rut}")]
         public async Task<IActionResult> Eliminar(string rut)
         {
-
-
             var rsp = new Response<bool>();
 
             try
@@ -106,7 +103,7 @@ namespace GestionComercial.API.Controllers
             }
 
             return Ok(rsp);
-
         }
+
     }
 }
