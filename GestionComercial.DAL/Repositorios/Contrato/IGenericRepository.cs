@@ -27,6 +27,6 @@ namespace GestionComercial.DAL.Repositorios.Contrato
 
 
         //Esto es para listar con un filtro.
-        Task<IQueryable<TModel>> Consultar(Expression<Func<TModel, bool>> filtro = null);
+        Task<IQueryable<TModel>> Consultar(Expression<Func<TModel, bool>>? filtro = null);
     }
 }

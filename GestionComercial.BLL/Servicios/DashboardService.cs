@@ -12,7 +12,7 @@ using GestionComercial.BLL.Servicios.Contrato;
 using GestionComercial.DAL.Repositorios.Contrato;
 using GestionComercial.DTO;
 using GestionComercial.Model;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionComercial.BLL.Servicios
 {
@@ -20,9 +20,9 @@ namespace GestionComercial.BLL.Servicios
     {
         private readonly IGenericRepository<Producto> _productoRepositorio;
         private readonly IMapper _mapper;
-        private readonly IVentaRepository _ventaRepositorio;
+        private readonly IGenericRepository<Venta> _ventaRepositorio;
 
-        public DashboardService(IGenericRepository<Producto> productoRepositorio, IMapper mapper, IVentaRepository ventaRepositorio)
+        public DashboardService(IGenericRepository<Producto> productoRepositorio, IMapper mapper, IGenericRepository<Venta> ventaRepositorio)
         {
             _productoRepositorio = productoRepositorio;
             _mapper = mapper;

@@ -90,5 +90,7 @@ namespace GestionComercial.DAL.Repositorios
                 throw;
             }
         }
+
+
     }
 }

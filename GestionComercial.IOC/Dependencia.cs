@@ -51,7 +51,7 @@ namespace GestionComercial.IOC
             services.AddScoped<IOrdenCompraService, OrdenCompraService>();
             services.AddScoped<IProductoProveedorService, ProductoProveedorService>();
             services.AddScoped<IListaFiadosService, ListaFiadosService>();
-
+            services.AddScoped<ITransbankService, TransbankService>();
 
 
 
