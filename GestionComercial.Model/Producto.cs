@@ -16,6 +16,7 @@ public partial class Producto
     public int? Precio { get; set; }
 
     public bool? EsActivoProducto { get; set; }
+    public int precioCompra { get; set; }   
 
     public DateTime? FechaRegistroProducto { get; set; }
 

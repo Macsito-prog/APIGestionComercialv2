@@ -19,6 +19,8 @@ namespace GestionComercial.DTO
 
         public string? Precio { get; set; }
 
+        public int? precioCompra { get; set; }
+
         public int? EsActivoProducto { get; set; }
     }
 }
