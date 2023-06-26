@@ -10,6 +10,7 @@ namespace GestionComercial.BLL.Servicios.Contrato
 {
     public interface IListaFiadosService
     {
+        Task<bool> Editar(FiadoDTO modelo);
         Task<List<FiadoDTO>> Lista();
     }
 }

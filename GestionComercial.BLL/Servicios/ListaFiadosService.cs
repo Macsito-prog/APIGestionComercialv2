@@ -12,7 +12,7 @@ using GestionComercial.Model;
 
 namespace GestionComercial.BLL.Servicios
 {
-    public class ListaFiadosService :IListaFiadosService
+    public class ListaFiadosService : IListaFiadosService
     {
         private readonly IGenericRepository<Fiado> _fiadosRepository;
         private readonly IMapper _mapper;
@@ -34,7 +34,39 @@ namespace GestionComercial.BLL.Servicios
             {
                 throw;
             }
-            
+
+        }
+
+        public async Task<bool> Editar(FiadoDTO modelo)
+        {
+            try
+            {
+                var fiadoModelo = _mapper.Map<Fiado>(modelo);
+                var fiadoEncontrado = await _fiadosRepository.Obtener(f => f.IdVenta == modelo.IdVenta);
+
+                if (fiadoEncontrado == null)
+                {
+                    throw new TaskCanceledException("Fiado no existe...");
+                }
+                else
+                {
+                    fiadoEncontrado.pagado = true;
+
+                    bool respuesta = await _fiadosRepository.Editar(fiadoEncontrado);
+                    if (respuesta == false)
+                    {
+                        throw new TaskCanceledException("No se pudo editar el fiado...");
+                    }
+
+                    return respuesta;
+                }
+
+
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

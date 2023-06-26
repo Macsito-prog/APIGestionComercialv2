@@ -17,6 +17,8 @@ public partial class GestionComercialContext : DbContext
     {
     }
 
+
+
     public virtual DbSet<Categoria> Categoria { get; set; }
 
     public virtual DbSet<ProductoPorProveedor> ProductoPorProveedor { get; set; }
@@ -162,7 +164,6 @@ public partial class GestionComercialContext : DbContext
         modelBuilder.Entity<Fiado>(entity =>
         {
             entity
-                .HasNoKey()
                 .ToTable("FIADO");
 
             entity.Property(e => e.FechaRegistroVenta)
@@ -192,6 +193,8 @@ public partial class GestionComercialContext : DbContext
             entity.HasOne(d => d.RutClienteNavigation).WithMany()
                 .HasForeignKey(d => d.RutCliente)
                 .HasConstraintName("FK__FIADO__RUT_CLIEN__4BAC3F29");
+
+            
         });
 
         modelBuilder.Entity<Menu>(entity =>

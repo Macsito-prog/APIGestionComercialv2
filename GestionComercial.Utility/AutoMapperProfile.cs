@@ -209,7 +209,10 @@ namespace GestionComercial.Utility
                 .ForMember(destino => destino.Total, opt => opt.MapFrom(origen => origen.Total.ToString()))
                 .ForMember(destino =>
                 destino.FechaRegistroVenta,
-                opt => opt.MapFrom(origen => origen.FechaRegistroVenta.Value.ToString("dd/MM/yyyy")));
+                opt => opt.MapFrom(origen => origen.FechaRegistroVenta.Value.ToString("dd/MM/yyyy")))
+                .ForMember(destino =>
+                destino.fechaPago,
+                opt => opt.MapFrom(origen => origen.fechaPago.Value.ToString("dd/MM/yyyy")));
 
             CreateMap<FiadoDTO, Fiado>()
                 .ForMember(destino => destino.Total, opt => opt.MapFrom(origen => origen.Total));

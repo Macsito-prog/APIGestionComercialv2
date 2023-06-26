@@ -21,5 +21,9 @@ namespace GestionComercial.DTO
         public int? Total { get; set; }
 
         public string? FechaRegistroVenta { get; set; }
+
+        public string? fechaPago { get; set; }
+
+        public bool? pagado { get; set; }
     }
 }

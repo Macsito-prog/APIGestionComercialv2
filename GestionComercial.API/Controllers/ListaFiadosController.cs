@@ -5,7 +5,7 @@ using GestionComercial.BLL.Servicios.Contrato;
 using GestionComercial.DTO;
 using GestionComercial.API.Utilidad;
 using GestionComercial.BLL.Servicios;
-
+using Microsoft.AspNetCore.Routing.Patterns;
 
 namespace GestionComercial.API.Controllers
 {
@@ -37,6 +37,25 @@ namespace GestionComercial.API.Controllers
                 rsp.msg = ex.Message;
             }
 
+            return Ok(rsp);
+        }
+
+        [HttpPut]
+        [Route("Editar")]
+        public async Task<IActionResult> Editar([FromBody] FiadoDTO fiado)
+        {
+            var rsp = new Response<bool>();
+
+            try
+            {
+                rsp.status = true;
+                rsp.value = await _listaFiadosService.Editar(fiado);
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg=ex.Message;
+            }
             return Ok(rsp);
         }
     }
