@@ -50,12 +50,12 @@ namespace GestionComercial.BLL.Servicios
                 }
                 else
                 {
-                    fiadoEncontrado.pagado = true;
+                    fiadoEncontrado.pagado = fiadoModelo.pagado;
 
                     bool respuesta = await _fiadosRepository.Editar(fiadoEncontrado);
                     if (respuesta == false)
                     {
-                        throw new TaskCanceledException("No se pudo editar el fiado...");
+                        throw new TaskCanceledException("No se pudo pagar el fiado...");
                     }
 
                     return respuesta;
@@ -68,5 +68,39 @@ namespace GestionComercial.BLL.Servicios
                 throw;
             }
         }
+
+        public async Task<bool> CambiarEstado(FiadoDTO fiado)
+        {
+            try
+            {
+                var fiadoModelo = _mapper.Map<Fiado>(fiado);
+                var fiadoEncontrado = await _fiadosRepository.Obtener(f => f.IdVenta == fiado.IdVenta);
+
+                if (fiadoEncontrado == null)
+                {
+                    throw new TaskCanceledException("Fiado no existe...");
+                }
+                else
+                {
+                    Console.WriteLine($"Fecha de pago antes: {fiadoEncontrado.fechaPago}");
+                    fiadoEncontrado.fechaPago = fiadoModelo.fechaPago;
+                    Console.WriteLine($"fecha de pago después: {fiadoEncontrado.fechaPago}");
+
+                    bool respuesta = await _fiadosRepository.Editar(fiadoEncontrado);
+
+                    if (respuesta == false)
+                    {
+                        throw new TaskCanceledException("No se pudo cambiar la fecha del fiado...");
+                    }
+
+                    return respuesta;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

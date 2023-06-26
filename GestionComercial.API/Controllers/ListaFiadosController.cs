@@ -58,5 +58,24 @@ namespace GestionComercial.API.Controllers
             }
             return Ok(rsp);
         }
+
+        [HttpPut]
+        [Route("CambiarEstado")]
+        public async Task<IActionResult> CambiarEstado([FromBody] FiadoDTO fiado)
+        {
+            var rsp = new Response<bool>();
+
+            try
+            {
+                rsp.status = true;
+                rsp.value = await _listaFiadosService.CambiarEstado(fiado);
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+            return Ok(rsp);
+        }
     }
 }
